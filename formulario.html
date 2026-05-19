@@ -1,0 +1,533 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>La Esencia del Alma — Formulario de Consulta</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400&family=DM+Sans:wght@400;500&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: #EFEBE2;
+      min-height: 100vh;
+      display: flex;
+      align-items: flex-start;
+      justify-content: center;
+      padding: 2rem 1rem 4rem;
+    }
+
+    .wrap {
+      width: 100%;
+      max-width: 580px;
+    }
+
+    /* HEADER */
+    .eda-header {
+      text-align: center;
+      padding: 2.5rem 2rem 2rem;
+      background: #E0D9F1;
+      border-radius: 16px;
+      margin-bottom: 1.5rem;
+      border: 0.5px solid #c9c0e8;
+    }
+    .logo-text {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 12px;
+      letter-spacing: 3px;
+      color: #3d5c40;
+      text-transform: uppercase;
+      font-weight: 500;
+      margin-bottom: 10px;
+    }
+    .eda-header h1 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 28px;
+      font-weight: 400;
+      color: #3d5c40;
+      margin-bottom: 8px;
+      line-height: 1.2;
+    }
+    .eda-header p {
+      font-size: 14px;
+      color: #4a6b4d;
+      line-height: 1.6;
+    }
+
+    /* STEPS */
+    .step-row {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 6px;
+    }
+    .step-dot {
+      width: 30px; height: 30px;
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 13px; font-weight: 500;
+      border: 1.5px solid #c9c0e8;
+      background: #fff; color: #999;
+      transition: all 0.3s;
+    }
+    .step-dot.active { background: #87A28A; border-color: #87A28A; color: #fff; }
+    .step-dot.done { background: #E0D9F1; border-color: #c9c0e8; color: #3d5c40; }
+    .step-line { width: 50px; height: 1.5px; background: #c9c0e8; }
+    .step-labels {
+      display: flex; justify-content: space-around;
+      margin-bottom: 1.5rem;
+    }
+    .step-labels span { font-size: 11px; color: #999; text-align: center; width: 90px; }
+    .step-labels span.albl { color: #3d5c40; font-weight: 500; }
+
+    /* CARDS */
+    .card {
+      background: #fff;
+      border: 0.5px solid #e0dbd0;
+      border-radius: 16px;
+      padding: 1.75rem;
+      margin-bottom: 1rem;
+    }
+    .card h3 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 18px;
+      font-weight: 500;
+      color: #3d5c40;
+      margin-bottom: 1rem;
+      padding-bottom: 10px;
+      border-bottom: 0.5px solid #eee;
+    }
+
+    /* FIELDS */
+    .field { margin-bottom: 1.25rem; }
+    .field:last-child { margin-bottom: 0; }
+    .field label { display: block; font-size: 14px; color: #222; margin-bottom: 6px; font-weight: 500; }
+    .field .sublabel { font-size: 12px; color: #888; margin-top: -2px; margin-bottom: 8px; line-height: 1.4; }
+    .field label .req { color: #c0777b; margin-left: 2px; }
+    .field input, .field select, .field textarea {
+      width: 100%; font-size: 14px;
+      border: 1px solid #ddd; border-radius: 10px;
+      padding: 10px 14px;
+      background: #fff; color: #222;
+      font-family: 'DM Sans', sans-serif;
+      transition: border-color 0.2s;
+      appearance: none;
+    }
+    .field input:focus, .field select:focus, .field textarea:focus {
+      outline: none; border-color: #87A28A;
+      box-shadow: 0 0 0 3px rgba(135,162,138,0.12);
+    }
+    .field textarea { resize: vertical; min-height: 80px; line-height: 1.5; }
+    .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+
+    /* CHIPS */
+    .chips { display: flex; flex-wrap: wrap; gap: 8px; }
+    .chip {
+      padding: 7px 16px; border-radius: 22px;
+      border: 1px solid #d4cee8;
+      background: #fff; font-size: 13px; color: #444;
+      cursor: pointer; transition: all 0.18s;
+      user-select: none; font-family: 'DM Sans', sans-serif;
+    }
+    .chip:hover { border-color: #87A28A; color: #3d5c40; background: #f2f6f2; }
+    .chip.sel { background: #E0D9F1; border-color: #b0a5dc; color: #3d5c40; font-weight: 500; }
+
+    /* AREA CARDS */
+    .area-card {
+      border: 1px solid #e0dbd0; border-radius: 12px;
+      padding: 14px 16px; cursor: pointer;
+      transition: all 0.2s; background: #fff;
+      margin-bottom: 8px;
+      display: flex; align-items: flex-start; gap: 12px;
+    }
+    .area-card:hover { border-color: #87A28A; background: #f7faf7; }
+    .area-card.sel { border-color: #87A28A; background: #eef4ef; }
+    .area-icon {
+      width: 38px; height: 38px; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 18px; flex-shrink: 0; background: #E0D9F1;
+      transition: background 0.2s;
+    }
+    .area-card.sel .area-icon { background: #87A28A; }
+    .area-info { flex: 1; }
+    .area-title { font-size: 14px; font-weight: 500; color: #222; margin-bottom: 3px; }
+    .area-sub { font-size: 12px; color: #777; line-height: 1.4; }
+    .area-check {
+      width: 20px; height: 20px; border-radius: 50%;
+      border: 1.5px solid #ccc; flex-shrink: 0; margin-top: 2px;
+      transition: all 0.2s; display: flex; align-items: center; justify-content: center;
+    }
+    .area-card.sel .area-check { background: #87A28A; border-color: #87A28A; }
+    .check-inner { width: 9px; height: 9px; border-radius: 50%; background: #fff; display: none; }
+    .area-card.sel .check-inner { display: block; }
+
+    /* FOLLOWUP */
+    .followup-wrap { margin-top: 1.5rem; padding-top: 1.25rem; border-top: 0.5px solid #eee; }
+    .followup-wrap > p { font-size: 13px; font-weight: 500; color: #3d5c40; margin-bottom: 12px; }
+    .followup-block {
+      background: #f7faf7; border: 0.5px solid #c5d9c6;
+      border-radius: 12px; padding: 1.1rem 1.1rem; margin-bottom: 10px;
+    }
+    .followup-block .area-tag {
+      display: inline-block; font-size: 11px; font-weight: 500;
+      color: #3d5c40; background: #E0D9F1; border-radius: 12px;
+      padding: 3px 12px; margin-bottom: 14px; letter-spacing: 0.5px;
+    }
+    .fq-item { margin-bottom: 16px; }
+    .fq-item:last-child { margin-bottom: 0; }
+    .fq-item .fq-label {
+      font-size: 14px; font-weight: 500; color: #222;
+      margin-bottom: 8px; line-height: 1.4; display: block;
+    }
+
+    /* NAV */
+    .nav { display: flex; justify-content: space-between; align-items: center; margin-top: 1.25rem; }
+    .btn-back {
+      font-size: 14px; color: #888; background: none;
+      border: none; cursor: pointer; padding: 8px 0;
+      font-family: 'DM Sans', sans-serif;
+    }
+    .btn-back:hover { color: #222; }
+    .btn-next {
+      flex: 1; max-width: 200px; padding: 12px 24px;
+      border-radius: 10px; border: none;
+      background: #87A28A; color: #fff;
+      font-size: 14px; font-weight: 500; cursor: pointer;
+      font-family: 'DM Sans', sans-serif;
+      transition: background 0.2s;
+    }
+    .btn-next:hover { background: #5a7a5d; }
+
+    /* TRUST */
+    .trust { display: flex; gap: 20px; justify-content: center; flex-wrap: wrap; margin-top: 1.5rem; }
+    .tbadge { font-size: 12px; color: #888; display: flex; align-items: center; gap: 6px; }
+    .tdot { width: 6px; height: 6px; border-radius: 50%; background: #87A28A; flex-shrink: 0; }
+
+    /* SUCCESS */
+    .success-wrap {
+      text-align: center; padding: 3.5rem 2rem;
+      background: #fff; border: 0.5px solid #e0dbd0; border-radius: 16px;
+    }
+    .success-circle {
+      width: 68px; height: 68px; border-radius: 50%;
+      background: #E0D9F1; margin: 0 auto 1.5rem;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .success-wrap h2 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 26px; font-weight: 400; color: #3d5c40; margin-bottom: 10px;
+    }
+    .success-wrap p { font-size: 14px; color: #666; line-height: 1.7; }
+
+    .hidden { display: none !important; }
+
+    @media (max-width: 480px) {
+      .two-col { grid-template-columns: 1fr; }
+      body { padding: 1rem 0.75rem 3rem; }
+    }
+  </style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="eda-header">
+    <div class="logo-text">La Esencia del Alma</div>
+    <h1>Tu proceso comienza aquí</h1>
+    <p>Completá este formulario y te contactamos<br>para coordinar tu primera consulta.</p>
+  </div>
+
+  <div class="step-row" id="stepRow">
+    <div class="step-dot active" id="sd1">1</div>
+    <div class="step-line"></div>
+    <div class="step-dot" id="sd2">2</div>
+    <div class="step-line"></div>
+    <div class="step-dot" id="sd3">3</div>
+  </div>
+  <div class="step-labels" id="stepLabels">
+    <span class="albl" id="sl1">Sobre vos</span>
+    <span id="sl2">Tu consulta</span>
+    <span id="sl3">Preferencias</span>
+  </div>
+
+  <!-- PASO 1 -->
+  <div id="step1">
+    <div class="card">
+      <h3>Datos personales</h3>
+      <div class="two-col">
+        <div class="field"><label>Nombre <span class="req">*</span></label><input type="text" placeholder="Tu nombre"/></div>
+        <div class="field"><label>Apellido <span class="req">*</span></label><input type="text" placeholder="Tu apellido"/></div>
+      </div>
+      <div class="field">
+        <label>Edad <span class="req">*</span></label>
+        <select>
+          <option value="">Seleccioná tu rango de edad</option>
+          <option>Menor de 12 años (consulta a cargo de un adulto)</option>
+          <option>12 - 17 años (adolescente)</option>
+          <option>18 - 25 años</option>
+          <option>26 - 35 años</option>
+          <option>36 - 50 años</option>
+          <option>Más de 50 años</option>
+        </select>
+      </div>
+      <div class="two-col">
+        <div class="field"><label>Teléfono / WhatsApp <span class="req">*</span></label><input type="tel" placeholder="Ej: 11 1234-5678"/></div>
+        <div class="field"><label>Email <span class="req">*</span></label><input type="email" placeholder="tuemail@mail.com"/></div>
+      </div>
+    </div>
+    <div class="nav"><div></div><button class="btn-next" onclick="goTo(2)">Continuar →</button></div>
+  </div>
+
+  <!-- PASO 2 -->
+  <div id="step2" class="hidden">
+    <div class="card">
+      <h3>¿En qué sentís que necesitás ayuda?</h3>
+      <p style="font-size:13px;color:#777;margin:0 0 1rem;line-height:1.5;">Podés elegir una o varias áreas. A partir de tu selección te haremos algunas preguntas para conocerte mejor.</p>
+
+      <div id="areasList">
+        <div class="area-card" onclick="toggleArea(this,'emocional')">
+          <div class="area-icon">🌀</div>
+          <div class="area-info"><div class="area-title">Bienestar emocional</div><div class="area-sub">Ansiedad, tristeza, miedos, bloqueos, emociones difíciles de manejar</div></div>
+          <div class="area-check"><div class="check-inner"></div></div>
+        </div>
+        <div class="area-card" onclick="toggleArea(this,'laboral')">
+          <div class="area-icon">💼</div>
+          <div class="area-info"><div class="area-title">Área laboral / académica</div><div class="area-sub">Estrés en el trabajo o estudio, rendimiento, motivación, burnout</div></div>
+          <div class="area-check"><div class="check-inner"></div></div>
+        </div>
+        <div class="area-card" onclick="toggleArea(this,'vinculos')">
+          <div class="area-icon">🤝</div>
+          <div class="area-info"><div class="area-title">Vínculos / relaciones sociales</div><div class="area-sub">Pareja, familia, amistades, límites, conflictos relacionales</div></div>
+          <div class="area-check"><div class="check-inner"></div></div>
+        </div>
+        <div class="area-card" onclick="toggleArea(this,'bienestar')">
+          <div class="area-icon">🌿</div>
+          <div class="area-info"><div class="area-title">Bienestar físico / desarrollo personal</div><div class="area-sub">Hábitos, cuerpo, autoestima, crecimiento personal, mente y cuerpo</div></div>
+          <div class="area-check"><div class="check-inner"></div></div>
+        </div>
+        <div class="area-card" onclick="toggleArea(this,'vocacional')">
+          <div class="area-icon">🧭</div>
+          <div class="area-info"><div class="area-title">Orientación vocacional / proyectos de vida</div><div class="area-sub">Decisiones de carrera, propósito, qué estudiar, hacia dónde ir</div></div>
+          <div class="area-check"><div class="check-inner"></div></div>
+        </div>
+        <div class="area-card" onclick="toggleArea(this,'crisis')">
+          <div class="area-icon">🌊</div>
+          <div class="area-info"><div class="area-title">Momentos de crisis o cambios vitales</div><div class="area-sub">Duelo, separación, cambio de trabajo, maternidad/paternidad, transiciones</div></div>
+          <div class="area-check"><div class="check-inner"></div></div>
+        </div>
+      </div>
+
+      <div class="field" style="margin-top:1.25rem;">
+        <label>¿Querés agregar algo más? (opcional)</label>
+        <div class="sublabel">Podés escribir con tus propias palabras qué estás viviendo. Todo lo que compartás es confidencial.</div>
+        <textarea placeholder="Escribí acá..."></textarea>
+      </div>
+
+      <div id="followupWrap" class="followup-wrap hidden">
+        <p>Un poco más sobre lo que elegiste:</p>
+        <div id="followupBlocks"></div>
+      </div>
+    </div>
+    <div class="nav">
+      <button class="btn-back" onclick="goTo(1)">← Atrás</button>
+      <button class="btn-next" onclick="goTo(3)">Continuar →</button>
+    </div>
+  </div>
+
+  <!-- PASO 3 -->
+  <div id="step3" class="hidden">
+    <div class="card">
+      <h3>Preferencias de atención</h3>
+      <div class="field">
+        <label>¿Cómo preferís que sea la consulta? <span class="req">*</span></label>
+        <div class="sublabel">Elegí la modalidad que más se adapta a vos.</div>
+        <div class="chips">
+          <div class="chip" onclick="single(this,'mod')">Virtual (videollamada)</div>
+          <div class="chip" onclick="single(this,'mod')">Presencial (Adrogué)</div>
+          <div class="chip" onclick="single(this,'mod')">Me es indistinto</div>
+        </div>
+      </div>
+      <div class="field">
+        <label>¿En qué horario preferís que te contactemos?</label>
+        <div class="sublabel">Podés elegir más de uno.</div>
+        <div class="chips">
+          <div class="chip" onclick="this.classList.toggle('sel')">Mañana (8 a 12h)</div>
+          <div class="chip" onclick="this.classList.toggle('sel')">Mediodía (12 a 15h)</div>
+          <div class="chip" onclick="this.classList.toggle('sel')">Tarde (15 a 19h)</div>
+          <div class="chip" onclick="this.classList.toggle('sel')">Noche (19 a 21h)</div>
+        </div>
+      </div>
+      <div class="field">
+        <label>¿Por qué medio preferís que te contactemos? <span class="req">*</span></label>
+        <div class="sublabel">Elegí el canal que uses más.</div>
+        <div class="chips">
+          <div class="chip" onclick="single(this,'ctc')">WhatsApp</div>
+          <div class="chip" onclick="single(this,'ctc')">Email</div>
+          <div class="chip" onclick="single(this,'ctc')">Cualquiera está bien</div>
+        </div>
+      </div>
+      <div class="field">
+        <label>¿Cómo nos conociste?</label>
+        <div class="sublabel">Nos ayuda a saber cómo llegan hasta acá.</div>
+        <div class="chips">
+          <div class="chip" onclick="single(this,'canal')">Instagram</div>
+          <div class="chip" onclick="single(this,'canal')">TikTok</div>
+          <div class="chip" onclick="single(this,'canal')">Me lo recomendaron</div>
+          <div class="chip" onclick="single(this,'canal')">Google</div>
+          <div class="chip" onclick="single(this,'canal')">Otro</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card" style="background:#f9f4ff;border-color:#c9c0e8;">
+      <p style="font-size:12px;color:#666;line-height:1.6;">Al enviar este formulario aceptás que La Esencia del Alma utilice tus datos únicamente para contactarte y coordinar tu proceso. Tu información es confidencial.</p>
+    </div>
+
+    <div class="nav">
+      <button class="btn-back" onclick="goTo(2)">← Atrás</button>
+      <button class="btn-next" onclick="enviar()">Enviar consulta →</button>
+    </div>
+  </div>
+
+  <!-- ÉXITO -->
+  <div id="stepSuccess" class="hidden">
+    <div class="success-wrap">
+      <div class="success-circle">
+        <svg viewBox="0 0 28 28" fill="none" width="30" height="30">
+          <circle cx="14" cy="14" r="13" stroke="#87A28A" stroke-width="1.5"/>
+          <path d="M8 14.5l4 4 8-8" stroke="#87A28A" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>
+      <h2>¡Tu consulta fue enviada!</h2>
+      <p style="margin-bottom:1rem;">Gracias por dar este paso.<br>En menos de 48hs te vamos a contactar para coordinar tu primera consulta.<br><br>Recordá que tu proceso es único y merece un acompañamiento personalizado. 🌿</p>
+      <p style="font-size:13px;color:#87A28A;margin-top:1rem;">@laesenciadel.alma</p>
+    </div>
+  </div>
+
+  <div class="trust" id="trustBadges">
+    <div class="tbadge"><div class="tdot"></div>Consulta confidencial</div>
+    <div class="tbadge"><div class="tdot"></div>Virtual y presencial</div>
+    <div class="tbadge"><div class="tdot"></div>MP 74734 · MN 72818</div>
+  </div>
+
+</div>
+
+<script>
+  let currentStep = 1;
+  let selectedAreas = [];
+
+  const areaData = {
+    emocional: {
+      label: "Bienestar emocional",
+      questions: [
+        { q: "¿Con qué frecuencia estas emociones afectan tu día a día?", opts: ["Casi todo el tiempo", "Varias veces por semana", "De vez en cuando", "En situaciones puntuales"] },
+        { q: "¿Cuál de estas emociones es la que más te pesa últimamente?", opts: ["Ansiedad / preocupación", "Tristeza / vacío", "Enojo / irritabilidad", "Miedo / inseguridad", "No sé cómo nombrarlo"] },
+        { q: "¿Sentís que esto afecta tus relaciones o tu vida cotidiana?", opts: ["Sí, mucho", "Algo", "Poco", "No estoy seguro/a"] }
+      ]
+    },
+    laboral: {
+      label: "Área laboral / académica",
+      questions: [
+        { q: "¿Cómo describirías tu situación actual?", opts: ["Estoy trabajando y me siento desbordado/a", "Estoy estudiando y me cuesta sostenerlo", "Estoy en transición o sin trabajo", "Mezcla de varias situaciones"] },
+        { q: "¿Qué es lo que más te genera malestar en esta área?", opts: ["El estrés y la presión", "La falta de motivación", "Conflictos con otros", "Sensación de no avanzar"] },
+        { q: "¿Esto te genera síntomas físicos o emocionales fuera del trabajo/estudio?", opts: ["Sí, claramente", "A veces", "Rara vez", "No sé si está relacionado"] }
+      ]
+    },
+    vinculos: {
+      label: "Vínculos / relaciones sociales",
+      questions: [
+        { q: "¿En qué tipo de vínculo sentís que necesitás más apoyo?", opts: ["Pareja o ex pareja", "Familia (padres, hermanos)", "Amistades", "En general, en todos mis vínculos"] },
+        { q: "¿Cómo describirías tu dificultad principal?", opts: ["Me cuesta poner límites", "Tengo conflictos frecuentes", "Me siento solo/a aunque esté rodeado/a", "Patrones que se repiten"] },
+        { q: "¿Hace cuánto está presente esta dificultad?", opts: ["Hace poco (meses)", "Desde hace años", "Siempre fue así", "Se intensificó recientemente"] }
+      ]
+    },
+    bienestar: {
+      label: "Bienestar físico / desarrollo personal",
+      questions: [
+        { q: "¿En qué aspecto sentís que querés trabajar?", opts: ["Mi autoestima y confianza", "Hábitos saludables (sueño, alimentación)", "Conexión mente-cuerpo", "Crecimiento y autoconocimiento"] },
+        { q: "¿Cómo está tu relación con tu cuerpo actualmente?", opts: ["Con tensión o malestar físico frecuente", "Lo descuido bastante", "Quiero mejorarla pero no sé cómo", "Está bien pero quiero profundizar"] },
+        { q: "¿Tenés alguna práctica de bienestar actualmente?", opts: ["Sí (deporte, meditación, etc.)", "Intento pero no logro sostenerlo", "No, me cuesta arrancar", "Estoy buscando herramientas nuevas"] }
+      ]
+    },
+    vocacional: {
+      label: "Orientación vocacional / proyectos de vida",
+      questions: [
+        { q: "¿En qué etapa de vida estás?", opts: ["Eligiendo qué estudiar", "En medio de una carrera con dudas", "Queriendo cambiar de rumbo profesional", "Pensando en un proyecto propio"] },
+        { q: "¿Qué es lo que más te genera confusión?", opts: ["No sé qué me gusta realmente", "Sé qué quiero pero me da miedo", "Hay demasiadas opciones y me paralizo", "Siento presión externa (familia, entorno)"] },
+        { q: "¿Cuánto tiempo llevas con esta inquietud?", opts: ["Hace poco (meses)", "Hace más de un año", "Siempre fue una duda", "Se intensificó ante un cambio reciente"] }
+      ]
+    },
+    crisis: {
+      label: "Momentos de crisis o cambios vitales",
+      questions: [
+        { q: "¿Qué tipo de situación estás atravesando?", opts: ["Pérdida o duelo", "Separación o ruptura", "Cambio laboral o de vida", "Maternidad / paternidad", "Otro cambio importante"] },
+        { q: "¿Cómo estás manejando esta situación emocionalmente?", opts: ["Muy mal, me supera", "Con altibajos", "Más o menos, pero necesito apoyo", "Quiero estar mejor preparado/a"] },
+        { q: "¿Tenés red de apoyo (familia, amigos) en este momento?", opts: ["Sí, pero igual necesito más", "Poca, me siento bastante solo/a", "No quiero cargar a otros con esto", "No tengo a nadie cercano"] }
+      ]
+    }
+  };
+
+  function toggleArea(el, area) {
+    el.classList.toggle('sel');
+    const idx = selectedAreas.indexOf(area);
+    if (idx > -1) selectedAreas.splice(idx, 1);
+    else selectedAreas.push(area);
+    renderFollowup();
+  }
+
+  function renderFollowup() {
+    const wrap = document.getElementById('followupWrap');
+    const blocks = document.getElementById('followupBlocks');
+    if (selectedAreas.length === 0) { wrap.classList.add('hidden'); return; }
+    wrap.classList.remove('hidden');
+    blocks.innerHTML = '';
+    selectedAreas.forEach(area => {
+      const data = areaData[area];
+      const block = document.createElement('div');
+      block.className = 'followup-block';
+      let html = `<div class="area-tag">${data.label}</div>`;
+      data.questions.forEach((q, qi) => {
+        html += `<div class="fq-item">`;
+        html += `<span class="fq-label">${q.q}</span>`;
+        html += `<div class="chips">`;
+        q.opts.forEach(opt => {
+          html += `<div class="chip" onclick="single(this,'${area}-q${qi}')">${opt}</div>`;
+        });
+        html += `</div></div>`;
+      });
+      block.innerHTML = html;
+      blocks.appendChild(block);
+    });
+  }
+
+  function single(el, group) {
+    el.closest('.chips').querySelectorAll('.chip').forEach(c => c.classList.remove('sel'));
+    el.classList.add('sel');
+  }
+
+  function goTo(step) {
+    document.getElementById('step' + currentStep).classList.add('hidden');
+    document.getElementById('step' + step).classList.remove('hidden');
+    ['sd1','sd2','sd3'].forEach((id, i) => {
+      const dot = document.getElementById(id);
+      const lbl = document.getElementById('sl'+(i+1));
+      dot.classList.remove('active','done');
+      lbl.classList.remove('albl');
+      if (i+1 < step) dot.classList.add('done');
+      else if (i+1 === step) { dot.classList.add('active'); lbl.classList.add('albl'); }
+    });
+    currentStep = step;
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  function enviar() {
+    document.getElementById('step3').classList.add('hidden');
+    document.getElementById('stepSuccess').classList.remove('hidden');
+    document.getElementById('stepRow').classList.add('hidden');
+    document.getElementById('stepLabels').classList.add('hidden');
+    document.getElementById('trustBadges').classList.add('hidden');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+</script>
+</body>
+</html>

@@ -10,11 +10,13 @@
   --text-mid: #5a5060;
   --text-light: #8a808a;
 }
+
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
+
 body {
   font-family: 'Raleway', sans-serif;
   color: var(--text-dark);
@@ -88,17 +90,14 @@ body {
   align-items: flex-start;
 }
 
-/* — foto col — */
 .photo-col {
   position: relative;
-  /* espacio extra abajo para que la cat-card no solape nada */
   padding-bottom: 52px;
 }
 
 .main-card {
   background: var(--rosa);
   border-radius: 10px;
-  /* más padding abajo para que el nombre no quede tapado */
   padding: 8px 8px 60px;
   box-shadow: 6px 8px 28px rgba(58, 51, 64, 0.16);
 }
@@ -120,10 +119,8 @@ body {
   letter-spacing: 0.3px;
 }
 
-/* — cat card: posicionada DEBAJO de la card principal, no encima del nombre — */
 .cat-card {
   position: absolute;
-  /* va justo al final de la main-card, un poco superpuesta */
   bottom: 70px;
   right: -100px;
   background: var(--rosa);
@@ -144,17 +141,14 @@ body {
 }
 .cat-label {
   text-align: center;
-
   font-size: 12px;
   font-style: bold;
   color: black;
-
   bottom: 5px;
   left: 0;
   right: 0;
 }
 
-/* — texto col — */
 .text-col {
   display: flex;
   flex-direction: column;
@@ -164,7 +158,6 @@ body {
 }
 .bubble {
   background: rgba(224, 217, 241, 0.88);
-
   border-radius: 12px;
   padding: 28px 32px;
   text-align: center;
@@ -205,9 +198,7 @@ body {
   font-family: 'Raleway', sans-serif;
   letter-spacing: 0.5px;
   box-shadow: 0 4px 16px rgba(135, 162, 138, 0.38);
-  transition:
-    background 0.2s,
-    transform 0.15s;
+  transition: background 0.2s, transform 0.15s;
 }
 .btn-green:hover {
   background: var(--verde-dark);
@@ -293,12 +284,8 @@ body {
   animation-play-state: paused;
 }
 @keyframes slide {
-  0% {
-    transform: translateX(0);
-  }
-  100% {
-    transform: translateX(-50%);
-  }
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
 }
 .t-card {
   background: rgba(228, 196, 200, 0.85);
@@ -329,9 +316,6 @@ body {
   font-weight: 700;
   color: var(--verde-dark);
   letter-spacing: 0.4px;
-}
-.testimonios .btn-wrap {
-  padding: 0 24px;
 }
 
 /* ══ FAQ ══ */
@@ -407,11 +391,6 @@ body {
   opacity: 0.16;
   mix-blend-mode: multiply;
 }
-.flor {
-  position: absolute;
-  opacity: 0.16;
-  pointer-events: none;
-}
 .galeria-grid {
   display: flex;
   gap: 22px;
@@ -461,9 +440,7 @@ body {
   font-weight: 600;
   font-size: 14px;
   border: 1px solid rgba(255, 255, 255, 0.5);
-  transition:
-    background 0.2s,
-    transform 0.15s;
+  transition: background 0.2s, transform 0.15s;
   letter-spacing: 0.3px;
 }
 .r-link:hover {
@@ -535,7 +512,6 @@ footer::before {
   height: 56px;
   object-fit: contain;
   border-radius: 50%;
-
   padding: 4px;
   box-shadow: 0 2px 10px rgba(58, 51, 64, 0.1);
 }
@@ -571,9 +547,7 @@ footer::before {
   display: flex;
   align-items: center;
   justify-content: center;
-  transition:
-    background 0.2s,
-    transform 0.15s;
+  transition: background 0.2s, transform 0.15s;
   text-decoration: none;
 }
 .footer-icon-link:hover {
@@ -592,14 +566,8 @@ footer::before {
 }
 
 @keyframes fadeUp {
-  from {
-    opacity: 0;
-    transform: translateY(18px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+  from { opacity: 0; transform: translateY(18px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 .hero-inner {
   animation: fadeUp 0.7s ease both;
@@ -616,7 +584,6 @@ footer::before {
   }
   .cat-card {
     width: 120px;
-
     bottom: 80px;
     right: -110px;
     transform: rotate(-10deg);
@@ -624,7 +591,6 @@ footer::before {
   .cat-label {
     font-size: 11px;
   }
-
   .bubble {
     padding: 20px 24px;
     right: 0;
@@ -642,10 +608,13 @@ footer::before {
     text-align: center;
   }
 }
+
+/* ══ PRICING ══ */
 .pricing-section {
   background: var(--lila);
   padding: 2.5rem 1.5rem 3rem;
   border-radius: 20px;
+  margin: 2rem 1.5rem;
 }
 
 .toggle-bar {
@@ -697,10 +666,9 @@ footer::before {
   }
 }
 
-/* Doble card effect */
 .card-wrap {
   position: relative;
-  padding: 10px 8px 0;
+  padding: 10px 8px 8px;
 }
 
 .card-back {
@@ -708,7 +676,7 @@ footer::before {
   top: 0;
   left: 0;
   right: 0;
-  bottom: 0;
+  bottom: 8px;
   background: var(--crema);
   border-radius: 16px;
   border: 2px solid var(--rosa);
@@ -717,7 +685,8 @@ footer::before {
 }
 
 .card-wrap.featured .card-back {
-  background: #a8c2ab;
+  background: var(--crema);
+  border-color: var(--verde);
 }
 
 .card-wrap.osmecon .card-back {
@@ -838,11 +807,11 @@ footer::before {
   background: var(--verde);
   color: #fff;
   text-decoration: none;
+  display: inline-block;
+  text-align: center;
 }
 
 .cta-btn:hover {
   background: var(--verde-dark);
   transform: translateY(-1px);
 }
-
-

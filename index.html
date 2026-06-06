@@ -68,6 +68,89 @@
       </div>
     </section>
 
+    <!-- PRICING -->
+
+    <section class="pricing-section">
+      <div class="toggle-bar">
+        <div class="toggle-pill">
+          <button class="toggle-btn active" id="btn-ars" onclick="switchCurrency('ars')">
+            ARG $
+          </button>
+          <button class="toggle-btn" id="btn-usd" onclick="switchCurrency('usd')">USD $</button>
+        </div>
+      </div>
+
+      <div class="cards-grid">
+        <div class="card-wrap">
+          <div class="card-back"></div>
+          <div class="pricing-card">
+            <p class="card-title">Por sesión</p>
+            <p class="card-desc">
+              Ideal si querés comenzar de a poco o necesitás un espacio puntual de acompañamiento.
+            </p>
+            <ul class="features">
+              <li>Sesión individual de 50 minutos</li>
+              <li>Modalidad virtual</li>
+              <li>Espacio seguro y confidencial</li>
+              <li>Atención personalizada</li>
+            </ul>
+            <div class="price-block">
+              <div class="price-main" id="price-session">$35.000</div>
+              <div class="price-period">por sesión</div>
+            </div>
+            <button and href="formulario.html" target="_blank" class="cta-btn">
+              Agendar sesión
+            </button>
+          </div>
+        </div>
+
+        <div class="card-wrap featured">
+          <div class="card-back"></div>
+          <div class="pricing-card">
+            <span class="badge">Más elegido</span>
+            <p class="card-title">Plan mensual</p>
+            <p class="card-desc">
+              La opción recomendada para quienes buscan un acompañamiento continuo y un proceso
+              terapéutico sostenido.
+            </p>
+            <ul class="features">
+              <li>4 sesiones mensuales</li>
+              <li>Modalidad virtual</li>
+              <li>Seguimiento constante</li>
+              <li>Mayor continuidad en el proceso</li>
+            </ul>
+            <div class="price-block">
+              <div class="price-main" id="price-monthly">$126.000</div>
+              <div class="price-period">por mes</div>
+            </div>
+            <button a href="formulario.html" target="_blank" class="cta-btn">
+              Comenzar acompañamiento
+            </button>
+          </div>
+        </div>
+
+        <div class="card-wrap osmecon">
+          <div class="card-back"></div>
+          <div class="pricing-card">
+            <p class="card-title">OSMECON</p>
+            <p class="card-desc">
+              Si sos afiliado de OSMECON, podés acceder a atención psicológica utilizando tu
+              cobertura médica.
+            </p>
+            <ul class="features">
+              <li>Prestadora de OSMECON</li>
+              <li>Modalidad virtual</li>
+              <li>Cobertura según tu plan</li>
+              <li>Asesoramiento sobre autorizaciones</li>
+            </ul>
+            <div class="price-block">
+              <p class="price-consult">Consultar cobertura</p>
+            </div>
+            <button a href="formulario.html" target="_blank" class="cta-btn">Consultar</button>
+          </div>
+        </div>
+      </div>
+    </section>
     <!-- TESTIMONIOS -->
     <section class="testimonios tx">
       <h2 class="section-title">Lo que sienten quienes ya empezaron</h2>
@@ -210,35 +293,41 @@
           <span>¿Cómo es el proceso de comenzar terapia?</span><span class="faq-arrow">▼</span>
         </div>
         <div class="faq-answer">
-          Para comenzar, podés completar el formulario de contacto de la página. A partir de ahí, me comunicaré con vos para coordinar una primera sesión gratuita, un espacio pensado para conocernos, hablar sobre lo que necesitás y ver juntas/os cómo acompañar tu proceso.”
+          Para comenzar, podés completar el formulario de contacto de la página. A partir de ahí, me
+          comunicaré con vos para coordinar una primera sesión gratuita, un espacio pensado para
+          conocernos, hablar sobre lo que necesitás y ver juntas/os cómo acompañar tu proceso.”
         </div>
         <div class="faq-item" onclick="toggleFaq(this)">
           <div class="faq-dot"></div>
           <span>¿Cuánto dura una sesión?</span><span class="faq-arrow">▼</span>
         </div>
         <div class="faq-answer">
-          Las sesiones se realizan de manera virtual, brindando un espacio cómodo, seguro y accesible para que puedas realizar tu proceso desde donde te encuentres. La duración aproximada de cada encuentro es de 50 a 60 minutos.
+          Las sesiones se realizan de manera virtual, brindando un espacio cómodo, seguro y
+          accesible para que puedas realizar tu proceso desde donde te encuentres. La duración
+          aproximada de cada encuentro es de 50 a 60 minutos.
         </div>
         <div class="faq-item" onclick="toggleFaq(this)">
           <div class="faq-dot"></div>
           <span>¿Cuánto dura el proceso de terapia?</span><span class="faq-arrow">▼</span>
         </div>
-        <div class="faq-answer">
-          Cada persona tiene necesidades y ritmos distintos.
-        </div>
+        <div class="faq-answer">Cada persona tiene necesidades y ritmos distintos.</div>
         <div class="faq-item" onclick="toggleFaq(this)">
           <div class="faq-dot"></div>
           <span>¿Cómo puedo pagar mis sesiones?</span><span class="faq-arrow">▼</span>
         </div>
         <div class="faq-answer">
-          Podés abonar tus sesiones mediante transferencia bancaria o Mercado Pago. Si tenés alguna consulta sobre los medios de pago, podés resolverla al momento de contactarte
+          Podés abonar tus sesiones mediante transferencia bancaria o Mercado Pago. Si tenés alguna
+          consulta sobre los medios de pago, podés resolverla al momento de contactarte
         </div>
         <div class="faq-item" onclick="toggleFaq(this)">
           <div class="faq-dot"></div>
           <span>¿Qué pasa cuando me escribís por primera vez?</span><span class="faq-arrow">▼</span>
         </div>
         <div class="faq-answer">
-         Cuando me escribís por primera vez, el objetivo es que puedas sentirte cómoda/o y acompañada/o desde el inicio. Primero completarás un breve formulario de contacto y, a partir de ahí, me comunicaré con vos para coordinar una primera sesión gratuita, donde podremos conocernos y hablar sobre lo que necesitás hoy.
+          Cuando me escribís por primera vez, el objetivo es que puedas sentirte cómoda/o y
+          acompañada/o desde el inicio. Primero completarás un breve formulario de contacto y, a
+          partir de ahí, me comunicaré con vos para coordinar una primera sesión gratuita, donde
+          podremos conocernos y hablar sobre lo que necesitás hoy.
         </div>
       </div>
     </section>
@@ -342,7 +431,25 @@
         <div class="footer-copy">© 2025 La Esencia del Alma · Todos los derechos reservados</div>
       </div>
     </footer>
+    <script>
+      function toggleFaq(el) {
+        const isOpen = el.classList.contains('open');
+        document.querySelectorAll('.faq-item').forEach((i) => i.classList.remove('open'));
+        if (!isOpen) el.classList.add('open');
+      }
 
+      const prices = {
+        ars: { session: '$35.000', monthly: '$126.000' },
+        usd: { session: 'USD 45', monthly: 'USD 160' },
+      };
+
+      function switchCurrency(cur) {
+        document.getElementById('price-session').textContent = prices[cur].session;
+        document.getElementById('price-monthly').textContent = prices[cur].monthly;
+        document.getElementById('btn-ars').classList.toggle('active', cur === 'ars');
+        document.getElementById('btn-usd').classList.toggle('active', cur === 'usd');
+      }
+    </script>
     <script>
       function toggleFaq(el) {
         const isOpen = el.classList.contains('open');

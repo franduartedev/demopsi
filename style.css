@@ -837,6 +837,7 @@ footer::before {
   border: none;
   background: var(--verde);
   color: #fff;
+  text-decoration: none;
 }
 
 .cta-btn:hover {

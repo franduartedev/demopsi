@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -235,7 +234,7 @@
     <input type="hidden" name="_subject" value="Nueva consulta desde La Esencia del Alma">
     <input type="hidden" name="_replyto" id="inputReplyTo">
     <input type="hidden" name="Áreas de consulta" id="inputAreas">
-    <input type="hidden" name="Respuestas específicas" id="inputFollowups">
+    <input type="hidden" name="Detalle de la consulta" id="inputFollowups">
     <input type="hidden" name="Plan de interés" id="inputPlan">
     <input type="hidden" name="Modalidad preferida" id="inputModalidad">
     <input type="hidden" name="Horario preferido" id="inputHorario">
@@ -564,21 +563,37 @@
   }
 
   function updateFollowups() {
-    const respuestas = [];
+    const titulosCortos = {
+      emocional: ['Frecuencia', 'Emoción principal', 'Impacto cotidiano'],
+      laboral: ['Situación actual', 'Principal malestar', 'Síntomas fuera del trabajo/estudio'],
+      vinculos: ['Tipo de vínculo', 'Dificultad principal', 'Tiempo presente'],
+      bienestar: ['Aspecto a trabajar', 'Relación con el cuerpo', 'Prácticas actuales'],
+      vocacional: ['Etapa actual', 'Principal confusión', 'Tiempo con esta inquietud'],
+      crisis: ['Situación actual', 'Manejo emocional', 'Red de apoyo']
+    };
+
+    const bloques = [];
 
     selectedAreas.forEach(area => {
       const data = areaData[area];
+      const lineas = [];
 
       data.questions.forEach((question, index) => {
         const selected = document.querySelector(`.chip.sel[onclick*="${area}-q${index}"]`);
 
         if (selected) {
-          respuestas.push(`${data.label} - ${question.q}: ${selected.textContent.trim()}`);
+          const titulo = titulosCortos[area]?.[index] || question.q;
+          lineas.push(`- ${titulo}: ${selected.textContent.trim()}`);
         }
       });
+
+      if (lineas.length > 0) {
+        bloques.push(`${data.label}:
+${lineas.join('\n')}`);
+      }
     });
 
-    document.getElementById('inputFollowups').value = respuestas.join(' | ');
+    document.getElementById('inputFollowups').value = bloques.join('\n\n');
   }
 
   function goTo(step) {

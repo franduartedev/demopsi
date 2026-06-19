@@ -4,18 +4,88 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>La Esencia del Alma – Lic. Elizabeth Di Stefano</title>
+
+    <!-- SEO básico -->
+    <title>Psicóloga en Adrogué y Online | Lic. Elizabeth Di Stefano</title>
+    <meta
+      name="description"
+      content="Atención psicológica presencial en Adrogué y online. Acompañamiento terapéutico cercano, humano y respetuoso para ansiedad, vínculos, estrés, cambios vitales y procesos emocionales."
+    />
+    <meta
+      name="keywords"
+      content="psicóloga en Adrogué, psicóloga online, terapia online, terapia psicológica, psicología clínica, ansiedad, estrés, vínculos, La Esencia del Alma, Elizabeth Di Stefano"
+    />
+    <meta name="author" content="Lic. Elizabeth Di Stefano" />
+    <meta name="robots" content="index, follow" />
+    <link rel="canonical" href="https://TU-DOMINIO.com/" />
+
+    <!-- Open Graph / WhatsApp / Facebook -->
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Psicóloga en Adrogué y Online | Lic. Elizabeth Di Stefano" />
+    <meta
+      property="og:description"
+      content="Acompañamiento psicológico presencial en Adrogué y online. Un espacio cercano, humano y respetuoso para comenzar tu proceso terapéutico."
+    />
+    <meta property="og:url" content="https://TU-DOMINIO.com/" />
+    <meta property="og:image" content="https://TU-DOMINIO.com/og-image.jpg" />
+    <meta property="og:locale" content="es_AR" />
+    <meta property="og:site_name" content="La Esencia del Alma" />
+
+    <!-- Twitter / X -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Psicóloga en Adrogué y Online | Lic. Elizabeth Di Stefano" />
+    <meta
+      name="twitter:description"
+      content="Atención psicológica presencial en Adrogué y online. Acompañamiento terapéutico cercano y profesional."
+    />
+    <meta name="twitter:image" content="https://TU-DOMINIO.com/og-image.jpg" />
+
+    <!-- Rendimiento -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+
+    <!-- Fuentes y estilos -->
     <link
       href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Raleway:wght@300;400;500;600;700&display=swap"
       rel="stylesheet"
     />
     <link rel="stylesheet" href="style.css" />
+
+    <!-- Datos estructurados para SEO local -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "ProfessionalService",
+        "name": "La Esencia del Alma - Lic. Elizabeth Di Stefano",
+        "description": "Atención psicológica presencial en Adrogué y online. Acompañamiento terapéutico para procesos emocionales, ansiedad, vínculos, estrés y cambios vitales.",
+        "url": "https://TU-DOMINIO.com/",
+        "telephone": "+541130533070",
+        "areaServed": [
+          "Adrogué",
+          "Buenos Aires",
+          "Argentina"
+        ],
+        "priceRange": "$$",
+        "sameAs": [
+          "https://instagram.com/laesenciadel.alma",
+          "https://tiktok.com/@laesenciadel.alma"
+        ],
+        "founder": {
+          "@type": "Person",
+          "name": "Lic. Elizabeth Di Stefano",
+          "jobTitle": "Psicóloga Clínica"
+        }
+      }
+    </script>
   </head>
   <body>
     <!-- HEADER -->
     <header class="site-header tx">
-      <img class="logo" src="6.png" alt="La Esencia del Alma" />
-      <h1>Lic. Elizabeth Di Stefano</h1>
+      <img class="logo" src="6.png" alt="La Esencia del Alma - Psicología clínica en Adrogué y online" />
+      <div class="header-text">
+        <h1>Psicóloga en Adrogué y atención online</h1>
+        <p class="header-subtitle">Lic. Elizabeth Di Stefano · Psicóloga Clínica</p>
+      </div>
     </header>
 
     <!-- HERO -->
@@ -23,7 +93,7 @@
       <div class="hero-inner">
         <div class="photo-col">
           <div class="main-card">
-            <img class="liz-photo" src="elizabeth.jpg" alt="Lic. Elizabeth Di Stefano" />
+            <img class="liz-photo" src="elizabeth.jpg" alt="Lic. Elizabeth Di Stefano, psicóloga clínica en Adrogué y online" />
             <div class="main-card-name">Lic. Elizabeth Di Stefano</div>
           </div>
         </div>
@@ -94,7 +164,7 @@
               <div class="price-main" id="price-session">$35.000</div>
               <div class="price-period">por sesión</div>
             </div>
-            <a href="formulario.html" target="_blank" class="cta-btn">agendar sesion</a>
+            <a href="formulario.html" target="_blank" class="cta-btn">Agendar sesión</a>
           </div>
         </div>
 
@@ -364,7 +434,7 @@
     <footer class="tx">
       <div class="footer-inner">
         <div class="footer-logo-wrap">
-          <img class="footer-logo" src="6.png" alt="La Esencia del Alma" />
+          <img class="footer-logo" src="6.png" alt="La Esencia del Alma - acompañamiento psicológico" />
           <div class="footer-brand">
             <span class="footer-brand-name">La Esencia del Alma</span>
             <span class="footer-brand-sub">Lic. Elizabeth Di Stefano · Psicóloga Clínica</span>
@@ -431,13 +501,6 @@
         document.getElementById('price-monthly').textContent = prices[cur].monthly;
         document.getElementById('btn-ars').classList.toggle('active', cur === 'ars');
         document.getElementById('btn-usd').classList.toggle('active', cur === 'usd');
-      }
-    </script>
-    <script>
-      function toggleFaq(el) {
-        const isOpen = el.classList.contains('open');
-        document.querySelectorAll('.faq-item').forEach((i) => i.classList.remove('open'));
-        if (!isOpen) el.classList.add('open');
       }
     </script>
   </body>

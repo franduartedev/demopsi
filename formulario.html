@@ -220,6 +220,38 @@
     }
     .success-wrap p { font-size: 14px; color: #666; line-height: 1.7; }
 
+
+    /* ERRORES */
+    .form-alert {
+      display: none;
+      background: #fff4f4;
+      border: 1px solid #e8b8b8;
+      color: #8a3d3d;
+      border-radius: 12px;
+      padding: 12px 14px;
+      margin-bottom: 1rem;
+      font-size: 13px;
+      line-height: 1.5;
+    }
+    .form-alert.show { display: block; }
+    .field.has-error .chips,
+    .field.has-error input,
+    .field.has-error select,
+    .field.has-error textarea,
+    .area-error {
+      border-color: #c0777b !important;
+      box-shadow: 0 0 0 3px rgba(192, 119, 123, 0.12);
+      border-radius: 12px;
+    }
+    .hidden-mail-field {
+      position: absolute;
+      left: -9999px;
+      width: 1px;
+      height: 1px;
+      opacity: 0;
+      pointer-events: none;
+    }
+
     .hidden { display: none !important; }
 
     @media (max-width: 480px) {
@@ -234,7 +266,7 @@
     <input type="hidden" name="_subject" value="Nueva consulta desde La Esencia del Alma">
     <input type="hidden" name="_replyto" id="inputReplyTo">
     <input type="hidden" name="Áreas de consulta" id="inputAreas">
-    <input type="hidden" name="Detalle de la consulta" id="inputFollowups">
+    <textarea name="Detalle de la consulta" id="inputFollowups" class="hidden-mail-field" tabindex="-1" aria-hidden="true"></textarea>
     <input type="hidden" name="Plan de interés" id="inputPlan">
     <input type="hidden" name="Modalidad preferida" id="inputModalidad">
     <input type="hidden" name="Horario preferido" id="inputHorario">
@@ -262,6 +294,7 @@
 
   <!-- PASO 1 -->
   <div id="step1">
+    <div id="step1Error" class="form-alert" aria-live="polite"></div>
     <div class="card">
       <h3>Datos personales</h3>
       <div class="two-col">
@@ -290,6 +323,7 @@
 
   <!-- PASO 2 -->
   <div id="step2" class="hidden">
+    <div id="step2Error" class="form-alert" aria-live="polite"></div>
     <div class="card">
       <h3>¿En qué sentís que necesitás ayuda?</h3>
       <p style="font-size:13px;color:#777;margin:0 0 1rem;line-height:1.5;">Podés elegir una o varias áreas. A partir de tu selección te haremos algunas preguntas para conocerte mejor.</p>
@@ -346,6 +380,7 @@
 
   <!-- PASO 3 -->
   <div id="step3" class="hidden">
+    <div id="step3Error" class="form-alert" aria-live="polite"></div>
     <div class="card">
       <h3>Preferencias de atención</h3>
 
@@ -596,17 +631,58 @@ ${lineas.join('\n')}`);
     document.getElementById('inputFollowups').value = bloques.join('\n\n');
   }
 
-  function reportField(field) {
-    goTo(1);
-    setTimeout(() => field.reportValidity(), 80);
+  function clearErrors() {
+    document.querySelectorAll('.form-alert').forEach(alertBox => {
+      alertBox.classList.remove('show');
+      alertBox.textContent = '';
+    });
+
+    document.querySelectorAll('.field.has-error').forEach(field => field.classList.remove('has-error'));
+    document.getElementById('areasList')?.classList.remove('area-error');
+  }
+
+  function showError(step, message, target = null) {
+    goTo(step);
+
+    setTimeout(() => {
+      const alertBox = document.getElementById(`step${step}Error`);
+      if (alertBox) {
+        alertBox.textContent = message;
+        alertBox.classList.add('show');
+      }
+
+      if (target) {
+        target.classList.add('has-error');
+        target.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      } else if (alertBox) {
+        alertBox.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }
+    }, 80);
+  }
+
+  function getFieldLabel(field) {
+    const wrapper = field.closest('.field');
+    const label = wrapper?.querySelector('label')?.textContent.replace('*', '').trim();
+    return label || 'este campo';
   }
 
   function validateStep1() {
+    clearErrors();
+
     const requiredFields = document.querySelectorAll('#step1 input[required], #step1 select[required], #step1 textarea[required]');
 
     for (const field of requiredFields) {
       if (!field.checkValidity()) {
-        reportField(field);
+        const fieldName = getFieldLabel(field);
+        const wrapper = field.closest('.field');
+
+        showError(1, `Te falta completar: ${fieldName}.`, wrapper);
+
+        setTimeout(() => {
+          field.focus();
+          field.reportValidity();
+        }, 160);
+
         return false;
       }
     }
@@ -615,9 +691,11 @@ ${lineas.join('\n')}`);
   }
 
   function validateStep2() {
+    clearErrors();
+
     if (selectedAreas.length === 0) {
-      alert('Por favor seleccioná al menos un área de consulta.');
-      goTo(2);
+      document.getElementById('areasList')?.classList.add('area-error');
+      showError(2, 'Te falta seleccionar al menos un área de consulta.');
       return false;
     }
 
@@ -628,8 +706,10 @@ ${lineas.join('\n')}`);
         const selected = document.querySelector(`.chip.sel[onclick*="${area}-q${i}"]`);
 
         if (!selected) {
-          alert(`Por favor completá todas las preguntas de "${data.label}".`);
-          goTo(2);
+          const block = Array.from(document.querySelectorAll('.followup-block'))
+            .find(block => block.querySelector('.area-tag')?.textContent.trim() === data.label);
+
+          showError(2, `Te falta responder una pregunta en: ${data.label}.`, block || null);
           return false;
         }
       }
@@ -640,25 +720,27 @@ ${lineas.join('\n')}`);
   }
 
   function validateStep3() {
+    clearErrors();
+
     const plan = document.getElementById('inputPlan').value.trim();
     const modalidad = document.getElementById('inputModalidad').value.trim();
     const contacto = document.getElementById('inputContacto').value.trim();
 
     if (!plan) {
-      alert('Por favor seleccioná qué plan te interesa.');
-      goTo(3);
+      const field = document.querySelector('#step3 .field:nth-of-type(1)');
+      showError(3, 'Te falta seleccionar qué plan te interesa.', field);
       return false;
     }
 
     if (!modalidad) {
-      alert('Por favor seleccioná la modalidad de consulta.');
-      goTo(3);
+      const field = document.querySelector('#step3 .field:nth-of-type(2)');
+      showError(3, 'Te falta seleccionar la modalidad de consulta.', field);
       return false;
     }
 
     if (!contacto) {
-      alert('Por favor seleccioná el medio de contacto preferido.');
-      goTo(3);
+      const field = document.querySelector('#step3 .field:nth-of-type(4)');
+      showError(3, 'Te falta seleccionar el medio de contacto preferido.', field);
       return false;
     }
 
@@ -666,15 +748,55 @@ ${lineas.join('\n')}`);
   }
 
   function validateStep1AndGo() {
-    if (validateStep1()) goTo(2);
+    if (validateStep1()) {
+      clearErrors();
+      goTo(2);
+    }
   }
 
   function validateStep2AndGo() {
-    if (validateStep2()) goTo(3);
+    if (validateStep2()) {
+      clearErrors();
+      goTo(3);
+    }
   }
 
   function validateAll() {
     return validateStep1() && validateStep2() && validateStep3();
+  }
+
+  function buildFormData() {
+    updateFollowups();
+
+    const formData = new FormData();
+    const emailPaciente = document.getElementById('inputEmail').value.trim();
+    const horario = document.getElementById('inputHorario').value.trim();
+    const canal = document.getElementById('inputCanal').value.trim();
+    const mensaje = document.querySelector('textarea[name="Mensaje adicional"]').value.trim();
+    const detalle = document.getElementById('inputFollowups').value.trim();
+
+    formData.append('_subject', 'Nueva consulta desde La Esencia del Alma');
+    formData.append('_replyto', emailPaciente);
+
+    formData.append('Nombre', document.querySelector('input[name="Nombre"]').value.trim());
+    formData.append('Apellido', document.querySelector('input[name="Apellido"]').value.trim());
+    formData.append('Edad', document.querySelector('select[name="Edad"]').value.trim());
+    formData.append('Teléfono / WhatsApp', document.querySelector('input[name="Teléfono / WhatsApp"]').value.trim());
+    formData.append('Email', emailPaciente);
+
+    formData.append('Áreas de consulta', document.getElementById('inputAreas').value.trim());
+    formData.append('Detalle de la consulta', detalle);
+
+    if (mensaje) formData.append('Mensaje adicional', mensaje);
+
+    formData.append('Plan de interés', document.getElementById('inputPlan').value.trim());
+    formData.append('Modalidad preferida', document.getElementById('inputModalidad').value.trim());
+    formData.append('Medio de contacto preferido', document.getElementById('inputContacto').value.trim());
+
+    if (horario) formData.append('Horario preferido', horario);
+    if (canal) formData.append('Cómo nos conoció', canal);
+
+    return formData;
   }
 
   function goTo(step) {
@@ -708,13 +830,15 @@ ${lineas.join('\n')}`);
 
     if (!validateAll()) return;
 
-    const emailPaciente = document.getElementById('inputEmail').value.trim();
-    document.getElementById('inputReplyTo').value = emailPaciente;
+    const submitButton = form.querySelector('button[type="submit"]');
+    const originalText = submitButton.textContent;
+    submitButton.disabled = true;
+    submitButton.textContent = 'Enviando...';
 
     try {
       const response = await fetch(form.action, {
         method: form.method,
-        body: new FormData(form),
+        body: buildFormData(),
         headers: {
           'Accept': 'application/json'
         }
@@ -723,11 +847,15 @@ ${lineas.join('\n')}`);
       if (response.ok) {
         mostrarExito();
         form.reset();
+        selectedAreas = [];
       } else {
         alert('Hubo un problema al enviar el formulario. Probá nuevamente.');
       }
     } catch (error) {
       alert('No se pudo enviar el formulario. Revisá tu conexión e intentá otra vez.');
+    } finally {
+      submitButton.disabled = false;
+      submitButton.textContent = originalText;
     }
   });
 </script>

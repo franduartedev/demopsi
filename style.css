@@ -82,17 +82,20 @@ body {
   opacity: 0.5;
 }
 .hero-inner {
-  max-width: 880px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 60px;
+  max-width: 1000px;
   margin: 0 auto;
-  display: grid;
-  grid-template-columns: 290px 1fr;
-  gap: 52px;
-  align-items: flex-start;
+  padding: 60px 20px;
 }
 
 .photo-col {
   position: relative;
   padding-bottom: 52px;
+  width: 290px;
+  flex-shrink: 0;
 }
 
 .main-card {
@@ -119,42 +122,13 @@ body {
   letter-spacing: 0.3px;
 }
 
-.cat-card {
-  position: absolute;
-  bottom: 70px;
-  right: -100px;
-  background: var(--rosa);
-  border-radius: 6px;
-  padding: 5px 5px 30px;
-  width: 160px;
-  height: 190px;
-  box-shadow: 5px 5px 16px rgba(58, 51, 64, 0.16);
-  transform: rotate(-10deg);
-}
-.cat-card img.cat-photo {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  object-position: center center;
-  border-radius: 3px;
-  display: block;
-}
-.cat-label {
-  text-align: center;
-  font-size: 12px;
-  font-style: bold;
-  color: black;
-  bottom: 5px;
-  left: 0;
-  right: 0;
-}
-
 .text-col {
   display: flex;
   flex-direction: column;
   align-items: center;
   padding-top: 14px;
   gap: 14px;
+  max-width: 420px;
 }
 .bubble {
   background: rgba(224, 217, 241, 0.88);
@@ -163,8 +137,7 @@ body {
   text-align: center;
   position: relative;
   width: 100%;
-  max-width: 3000px;
-  right: -150px;
+  max-width: 420px;
   border: 2px solid rgba(255, 255, 255, 0.5);
 }
 .bubble::after {
@@ -198,7 +171,9 @@ body {
   font-family: 'Raleway', sans-serif;
   letter-spacing: 0.5px;
   box-shadow: 0 4px 16px rgba(135, 162, 138, 0.38);
-  transition: background 0.2s, transform 0.15s;
+  transition:
+    background 0.2s,
+    transform 0.15s;
 }
 .btn-green:hover {
   background: var(--verde-dark);
@@ -284,8 +259,12 @@ body {
   animation-play-state: paused;
 }
 @keyframes slide {
-  0% { transform: translateX(0); }
-  100% { transform: translateX(-50%); }
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
 }
 .t-card {
   background: rgba(228, 196, 200, 0.85);
@@ -440,7 +419,9 @@ body {
   font-weight: 600;
   font-size: 14px;
   border: 1px solid rgba(255, 255, 255, 0.5);
-  transition: background 0.2s, transform 0.15s;
+  transition:
+    background 0.2s,
+    transform 0.15s;
   letter-spacing: 0.3px;
 }
 .r-link:hover {
@@ -547,7 +528,9 @@ footer::before {
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: background 0.2s, transform 0.15s;
+  transition:
+    background 0.2s,
+    transform 0.15s;
   text-decoration: none;
 }
 .footer-icon-link:hover {
@@ -566,47 +549,17 @@ footer::before {
 }
 
 @keyframes fadeUp {
-  from { opacity: 0; transform: translateY(18px); }
-  to { opacity: 1; transform: translateY(0); }
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 .hero-inner {
   animation: fadeUp 0.7s ease both;
-}
-
-@media (max-width: 1215px) {
-  .hero-inner {
-    grid-template-columns: 2fr;
-  }
-  .photo-col {
-    right: 50px;
-    max-width: 190px;
-    margin: 0 auto;
-  }
-  .cat-card {
-    width: 120px;
-    bottom: 80px;
-    right: -110px;
-    transform: rotate(-10deg);
-  }
-  .cat-label {
-    font-size: 11px;
-  }
-  .bubble {
-    padding: 20px 24px;
-    right: 0;
-  }
-  .gal-frame {
-    width: 140px;
-    height: 170px;
-  }
-  .hero {
-    padding: 40px 20px 78px;
-  }
-  .footer-inner {
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
-  }
 }
 
 /* ══ PRICING ══ */
@@ -814,4 +767,43 @@ footer::before {
 .cta-btn:hover {
   background: var(--verde-dark);
   transform: translateY(-1px);
+}
+@media (max-width: 768px) {
+  .hero-inner {
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 24px;
+    padding: 40px 16px;
+    width: 100%;
+  }
+
+  .photo-col {
+    width: 100%;
+    max-width: 290px;
+    padding-bottom: 20px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0 auto;
+  }
+
+  .main-card {
+    width: 100%;
+    max-width: 290px;
+    margin: 0 auto;
+  }
+
+  .text-col {
+    width: 100%;
+    max-width: 420px;
+    align-items: center;
+    margin: 0 auto;
+  }
+
+  .bubble {
+    width: 100%;
+    max-width: 100%;
+  }
 }

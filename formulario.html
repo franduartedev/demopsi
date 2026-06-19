@@ -1,10 +1,11 @@
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>La Esencia del Alma — Formulario de Consulta</title>
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400&family=DM+Sans:wght@400;500&display=swap" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;1,400&family=DM+Sans:wght@400;500&display=swap" rel="stylesheet"/>
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -338,6 +339,17 @@
   <div id="step3" class="hidden">
     <div class="card">
       <h3>Preferencias de atención</h3>
+
+      <div class="field">
+        <label>¿Qué plan te interesa? <span class="req">*</span></label>
+        <div class="sublabel">Podés cambiarlo más adelante si no estás seguro/a todavía.</div>
+        <div class="chips">
+          <div class="chip" onclick="single(this,'plan')" data-plan="sesion">Por sesión</div>
+          <div class="chip" onclick="single(this,'plan')" data-plan="mensual">Plan mensual</div>
+          <div class="chip" onclick="single(this,'plan')" data-plan="osmecon">OSMECON</div>
+        </div>
+      </div>
+
       <div class="field">
         <label>¿Cómo preferís que sea la consulta? <span class="req">*</span></label>
         <div class="sublabel">Elegí la modalidad que más se adapta a vos.</div>

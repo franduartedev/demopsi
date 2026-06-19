@@ -769,32 +769,58 @@ ${lineas.join('\n')}`);
     updateFollowups();
 
     const formData = new FormData();
+
+    const nombre = document.querySelector('input[name="Nombre"]').value.trim();
+    const apellido = document.querySelector('input[name="Apellido"]').value.trim();
+    const edad = document.querySelector('select[name="Edad"]').value.trim();
+    const telefono = document.querySelector('input[name="Teléfono / WhatsApp"]').value.trim();
     const emailPaciente = document.getElementById('inputEmail').value.trim();
+
+    const areas = document.getElementById('inputAreas').value.trim();
+    const detalle = document.getElementById('inputFollowups').value.trim();
+    const mensaje = document.querySelector('textarea[name="Mensaje adicional"]').value.trim();
+
+    const plan = document.getElementById('inputPlan').value.trim();
+    const modalidad = document.getElementById('inputModalidad').value.trim();
+    const contacto = document.getElementById('inputContacto').value.trim();
     const horario = document.getElementById('inputHorario').value.trim();
     const canal = document.getElementById('inputCanal').value.trim();
-    const mensaje = document.querySelector('textarea[name="Mensaje adicional"]').value.trim();
-    const detalle = document.getElementById('inputFollowups').value.trim();
 
-    formData.append('_subject', 'Nueva consulta desde La Esencia del Alma');
+    const resumen = [
+      '🌿 NUEVA CONSULTA — LA ESENCIA DEL ALMA',
+      '',
+      'DATOS PERSONALES',
+      `Nombre completo: ${nombre} ${apellido}`,
+      `Edad: ${edad}`,
+      `Teléfono / WhatsApp: ${telefono}`,
+      `Email: ${emailPaciente}`,
+      '',
+      'CONSULTA',
+      `Áreas seleccionadas: ${areas}`,
+      '',
+      detalle || 'Detalle de la consulta: No informado.',
+      '',
+      mensaje ? `Mensaje adicional:\n${mensaje}` : 'Mensaje adicional: No informado.',
+      '',
+      'PREFERENCIAS DE ATENCIÓN',
+      `Plan de interés: ${plan}`,
+      `Modalidad preferida: ${modalidad}`,
+      `Medio de contacto preferido: ${contacto}`,
+      `Horario preferido: ${horario || 'No informado'}`,
+      `Cómo nos conoció: ${canal || 'No informado'}`,
+      '',
+      '—',
+      'Este mensaje fue enviado automáticamente desde el formulario web.'
+    ].join('\n');
+
+    formData.append('_subject', `Nueva consulta desde La Esencia del Alma - ${nombre} ${apellido}`);
     formData.append('_replyto', emailPaciente);
 
-    formData.append('Nombre', document.querySelector('input[name="Nombre"]').value.trim());
-    formData.append('Apellido', document.querySelector('input[name="Apellido"]').value.trim());
-    formData.append('Edad', document.querySelector('select[name="Edad"]').value.trim());
-    formData.append('Teléfono / WhatsApp', document.querySelector('input[name="Teléfono / WhatsApp"]').value.trim());
-    formData.append('Email', emailPaciente);
-
-    formData.append('Áreas de consulta', document.getElementById('inputAreas').value.trim());
-    formData.append('Detalle de la consulta', detalle);
-
-    if (mensaje) formData.append('Mensaje adicional', mensaje);
-
-    formData.append('Plan de interés', document.getElementById('inputPlan').value.trim());
-    formData.append('Modalidad preferida', document.getElementById('inputModalidad').value.trim());
-    formData.append('Medio de contacto preferido', document.getElementById('inputContacto').value.trim());
-
-    if (horario) formData.append('Horario preferido', horario);
-    if (canal) formData.append('Cómo nos conoció', canal);
+    /*
+      Enviamos un solo campo principal para que el email de Formspree llegue limpio.
+      Si mandamos 15 campos separados, Formspree los muestra como una lista larga y queda menos legible.
+    */
+    formData.append('Consulta recibida', resumen);
 
     return formData;
   }

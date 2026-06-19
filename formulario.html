@@ -268,7 +268,7 @@
     <input type="hidden" name="Áreas de consulta" id="inputAreas">
     <textarea name="Detalle de la consulta" id="inputFollowups" class="hidden-mail-field" tabindex="-1" aria-hidden="true"></textarea>
     <input type="hidden" name="Plan de interés" id="inputPlan">
-    <input type="hidden" name="Modalidad preferida" id="inputModalidad">
+    <input type="hidden" name="Modalidad preferida" id="inputModalidad" value="Virtual (videollamada)">
     <input type="hidden" name="Horario preferido" id="inputHorario">
     <input type="hidden" name="Medio de contacto preferido" id="inputContacto">
     <input type="hidden" name="Cómo nos conoció" id="inputCanal">
@@ -383,6 +383,7 @@
     <div id="step3Error" class="form-alert" aria-live="polite"></div>
     <div class="card">
       <h3>Preferencias de atención</h3>
+      <p style="font-size:13px;color:#777;margin:0 0 1rem;line-height:1.5;">Las consultas se realizan en modalidad virtual.</p>
 
       <div class="field">
         <label>¿Qué plan te interesa? <span class="req">*</span></label>
@@ -394,8 +395,6 @@
         </div>
       </div>
 
-     
-      </div>
       <div class="field">
         <label>¿En qué horario preferís que te contactemos?</label>
         <div class="sublabel">Podés elegir más de uno.</div>
@@ -565,10 +564,6 @@
       document.getElementById('inputPlan').value = el.textContent.trim();
     }
 
-    if (group === 'mod') {
-      document.getElementById('inputModalidad').value = el.textContent.trim();
-    }
-
     if (group === 'ctc') {
       document.getElementById('inputContacto').value = el.textContent.trim();
     }
@@ -716,7 +711,6 @@ ${lineas.join('\n')}`);
     clearErrors();
 
     const plan = document.getElementById('inputPlan').value.trim();
-    const modalidad = document.getElementById('inputModalidad').value.trim();
     const contacto = document.getElementById('inputContacto').value.trim();
 
     if (!plan) {
@@ -725,14 +719,8 @@ ${lineas.join('\n')}`);
       return false;
     }
 
-    if (!modalidad) {
-      const field = document.querySelector('#step3 .field:nth-of-type(2)');
-      showError(3, 'Te falta seleccionar la modalidad de consulta.', field);
-      return false;
-    }
-
     if (!contacto) {
-      const field = document.querySelector('#step3 .field:nth-of-type(4)');
+      const field = document.querySelector('#step3 .field:nth-of-type(3)');
       showError(3, 'Te falta seleccionar el medio de contacto preferido.', field);
       return false;
     }
@@ -774,7 +762,7 @@ ${lineas.join('\n')}`);
     const mensaje = document.querySelector('textarea[name="Mensaje adicional"]').value.trim();
 
     const plan = document.getElementById('inputPlan').value.trim();
-    const modalidad = document.getElementById('inputModalidad').value.trim();
+    const modalidad = document.getElementById('inputModalidad').value.trim() || 'Virtual (videollamada)';
     const contacto = document.getElementById('inputContacto').value.trim();
     const horario = document.getElementById('inputHorario').value.trim();
     const canal = document.getElementById('inputCanal').value.trim();

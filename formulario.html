@@ -231,6 +231,16 @@
 </head>
 <body>
 <div class="wrap">
+  <form id="consultaForm" action="https://formspree.io/f/mlgkqjpz" method="POST">
+    <input type="hidden" name="_subject" value="Nueva consulta desde La Esencia del Alma">
+    <input type="hidden" name="_replyto" id="inputReplyTo">
+    <input type="hidden" name="Áreas de consulta" id="inputAreas">
+    <input type="hidden" name="Respuestas específicas" id="inputFollowups">
+    <input type="hidden" name="Plan de interés" id="inputPlan">
+    <input type="hidden" name="Modalidad preferida" id="inputModalidad">
+    <input type="hidden" name="Horario preferido" id="inputHorario">
+    <input type="hidden" name="Medio de contacto preferido" id="inputContacto">
+    <input type="hidden" name="Cómo nos conoció" id="inputCanal">
 
   <div class="eda-header">
     <div class="logo-text">La Esencia del Alma</div>
@@ -256,12 +266,12 @@
     <div class="card">
       <h3>Datos personales</h3>
       <div class="two-col">
-        <div class="field"><label>Nombre <span class="req">*</span></label><input type="text" placeholder="Tu nombre"/></div>
-        <div class="field"><label>Apellido <span class="req">*</span></label><input type="text" placeholder="Tu apellido"/></div>
+        <div class="field"><label>Nombre <span class="req">*</span></label><input type="text" name="Nombre" placeholder="Tu nombre" required/></div>
+        <div class="field"><label>Apellido <span class="req">*</span></label><input type="text" name="Apellido" placeholder="Tu apellido" required/></div>
       </div>
       <div class="field">
         <label>Edad <span class="req">*</span></label>
-        <select>
+        <select name="Edad" required>
           <option value="">Seleccioná tu rango de edad</option>
           <option>Menor de 12 años (consulta a cargo de un adulto)</option>
           <option>12 - 17 años (adolescente)</option>
@@ -272,11 +282,11 @@
         </select>
       </div>
       <div class="two-col">
-        <div class="field"><label>Teléfono / WhatsApp <span class="req">*</span></label><input type="tel" placeholder="Ej: 11 1234-5678"/></div>
-        <div class="field"><label>Email <span class="req">*</span></label><input type="email" placeholder="tuemail@mail.com"/></div>
+        <div class="field"><label>Teléfono / WhatsApp <span class="req">*</span></label><input type="tel" name="Teléfono / WhatsApp" placeholder="Ej: 11 1234-5678" required/></div>
+        <div class="field"><label>Email <span class="req">*</span></label><input type="email" name="Email" id="inputEmail" placeholder="tuemail@mail.com" required/></div>
       </div>
     </div>
-    <div class="nav"><div></div><button class="btn-next" onclick="goTo(2)">Continuar →</button></div>
+    <div class="nav"><div></div><button type="button" class="btn-next" onclick="goTo(2)">Continuar →</button></div>
   </div>
 
   <!-- PASO 2 -->
@@ -321,7 +331,7 @@
       <div class="field" style="margin-top:1.25rem;">
         <label>¿Querés agregar algo más? (opcional)</label>
         <div class="sublabel">Podés escribir con tus propias palabras qué estás viviendo. Todo lo que compartás es confidencial.</div>
-        <textarea placeholder="Escribí acá..."></textarea>
+        <textarea name="Mensaje adicional" placeholder="Escribí acá..."></textarea>
       </div>
 
       <div id="followupWrap" class="followup-wrap hidden">
@@ -330,8 +340,8 @@
       </div>
     </div>
     <div class="nav">
-      <button class="btn-back" onclick="goTo(1)">← Atrás</button>
-      <button class="btn-next" onclick="goTo(3)">Continuar →</button>
+      <button type="button" class="btn-back" onclick="goTo(1)">← Atrás</button>
+      <button type="button" class="btn-next" onclick="goTo(3)">Continuar →</button>
     </div>
   </div>
 
@@ -363,10 +373,10 @@
         <label>¿En qué horario preferís que te contactemos?</label>
         <div class="sublabel">Podés elegir más de uno.</div>
         <div class="chips">
-          <div class="chip" onclick="this.classList.toggle('sel')">Mañana (8 a 12h)</div>
-          <div class="chip" onclick="this.classList.toggle('sel')">Mediodía (12 a 15h)</div>
-          <div class="chip" onclick="this.classList.toggle('sel')">Tarde (15 a 19h)</div>
-          <div class="chip" onclick="this.classList.toggle('sel')">Noche (19 a 21h)</div>
+          <div class="chip horario-chip" onclick="toggleHorario(this)">Mañana (8 a 12h)</div>
+          <div class="chip horario-chip" onclick="toggleHorario(this)">Mediodía (12 a 15h)</div>
+          <div class="chip horario-chip" onclick="toggleHorario(this)">Tarde (15 a 19h)</div>
+          <div class="chip horario-chip" onclick="toggleHorario(this)">Noche (19 a 21h)</div>
         </div>
       </div>
       <div class="field">
@@ -396,8 +406,8 @@
     </div>
 
     <div class="nav">
-      <button class="btn-back" onclick="goTo(2)">← Atrás</button>
-      <button class="btn-next" onclick="enviar()">Enviar consulta →</button>
+      <button type="button" class="btn-back" onclick="goTo(2)">← Atrás</button>
+      <button class="btn-next" type="submit">Enviar consulta →</button>
     </div>
   </div>
 
@@ -422,6 +432,7 @@
     <div class="tbadge"><div class="tdot"></div>MP 74734 · MN 72818</div>
   </div>
 
+  </form>
 </div>
 
 <script>
@@ -482,9 +493,16 @@
   function toggleArea(el, area) {
     el.classList.toggle('sel');
     const idx = selectedAreas.indexOf(area);
+
     if (idx > -1) selectedAreas.splice(idx, 1);
     else selectedAreas.push(area);
+
+    document.getElementById('inputAreas').value = selectedAreas
+      .map(area => areaData[area].label)
+      .join(', ');
+
     renderFollowup();
+    updateFollowups();
   }
 
   function renderFollowup() {
@@ -515,6 +533,52 @@
   function single(el, group) {
     el.closest('.chips').querySelectorAll('.chip').forEach(c => c.classList.remove('sel'));
     el.classList.add('sel');
+
+    if (group === 'plan') {
+      document.getElementById('inputPlan').value = el.textContent.trim();
+    }
+
+    if (group === 'mod') {
+      document.getElementById('inputModalidad').value = el.textContent.trim();
+    }
+
+    if (group === 'ctc') {
+      document.getElementById('inputContacto').value = el.textContent.trim();
+    }
+
+    if (group === 'canal') {
+      document.getElementById('inputCanal').value = el.textContent.trim();
+    }
+
+    updateFollowups();
+  }
+
+  function toggleHorario(el) {
+    el.classList.toggle('sel');
+
+    const horarios = Array.from(document.querySelectorAll('.horario-chip.sel'))
+      .map(chip => chip.textContent.trim())
+      .join(', ');
+
+    document.getElementById('inputHorario').value = horarios;
+  }
+
+  function updateFollowups() {
+    const respuestas = [];
+
+    selectedAreas.forEach(area => {
+      const data = areaData[area];
+
+      data.questions.forEach((question, index) => {
+        const selected = document.querySelector(`.chip.sel[onclick*="${area}-q${index}"]`);
+
+        if (selected) {
+          respuestas.push(`${data.label} - ${question.q}: ${selected.textContent.trim()}`);
+        }
+      });
+    });
+
+    document.getElementById('inputFollowups').value = respuestas.join(' | ');
   }
 
   function goTo(step) {
@@ -532,7 +596,7 @@
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 
-  function enviar() {
+  function mostrarExito() {
     document.getElementById('step3').classList.add('hidden');
     document.getElementById('stepSuccess').classList.remove('hidden');
     document.getElementById('stepRow').classList.add('hidden');
@@ -540,6 +604,35 @@
     document.getElementById('trustBadges').classList.add('hidden');
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }
+
+  document.getElementById('consultaForm').addEventListener('submit', async function(e) {
+    e.preventDefault();
+
+    const form = e.target;
+    const data = new FormData(form);
+    const emailPaciente = document.getElementById('inputEmail').value.trim();
+
+    document.getElementById('inputReplyTo').value = emailPaciente;
+
+    try {
+      const response = await fetch(form.action, {
+        method: form.method,
+        body: new FormData(form),
+        headers: {
+          'Accept': 'application/json'
+        }
+      });
+
+      if (response.ok) {
+        mostrarExito();
+        form.reset();
+      } else {
+        alert('Hubo un problema al enviar el formulario. Probá nuevamente.');
+      }
+    } catch (error) {
+      alert('No se pudo enviar el formulario. Revisá tu conexión e intentá otra vez.');
+    }
+  });
 </script>
 </body>
 </html>

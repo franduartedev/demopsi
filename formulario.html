@@ -285,7 +285,7 @@
         <div class="field"><label>Email <span class="req">*</span></label><input type="email" name="Email" id="inputEmail" placeholder="tuemail@mail.com" required/></div>
       </div>
     </div>
-    <div class="nav"><div></div><button type="button" class="btn-next" onclick="goTo(2)">Continuar →</button></div>
+    <div class="nav"><div></div><button type="button" class="btn-next" onclick="validateStep1AndGo()">Continuar →</button></div>
   </div>
 
   <!-- PASO 2 -->
@@ -340,7 +340,7 @@
     </div>
     <div class="nav">
       <button type="button" class="btn-back" onclick="goTo(1)">← Atrás</button>
-      <button type="button" class="btn-next" onclick="goTo(3)">Continuar →</button>
+      <button type="button" class="btn-next" onclick="validateStep2AndGo()">Continuar →</button>
     </div>
   </div>
 
@@ -596,6 +596,87 @@ ${lineas.join('\n')}`);
     document.getElementById('inputFollowups').value = bloques.join('\n\n');
   }
 
+  function reportField(field) {
+    goTo(1);
+    setTimeout(() => field.reportValidity(), 80);
+  }
+
+  function validateStep1() {
+    const requiredFields = document.querySelectorAll('#step1 input[required], #step1 select[required], #step1 textarea[required]');
+
+    for (const field of requiredFields) {
+      if (!field.checkValidity()) {
+        reportField(field);
+        return false;
+      }
+    }
+
+    return true;
+  }
+
+  function validateStep2() {
+    if (selectedAreas.length === 0) {
+      alert('Por favor seleccioná al menos un área de consulta.');
+      goTo(2);
+      return false;
+    }
+
+    for (const area of selectedAreas) {
+      const data = areaData[area];
+
+      for (let i = 0; i < data.questions.length; i++) {
+        const selected = document.querySelector(`.chip.sel[onclick*="${area}-q${i}"]`);
+
+        if (!selected) {
+          alert(`Por favor completá todas las preguntas de "${data.label}".`);
+          goTo(2);
+          return false;
+        }
+      }
+    }
+
+    updateFollowups();
+    return true;
+  }
+
+  function validateStep3() {
+    const plan = document.getElementById('inputPlan').value.trim();
+    const modalidad = document.getElementById('inputModalidad').value.trim();
+    const contacto = document.getElementById('inputContacto').value.trim();
+
+    if (!plan) {
+      alert('Por favor seleccioná qué plan te interesa.');
+      goTo(3);
+      return false;
+    }
+
+    if (!modalidad) {
+      alert('Por favor seleccioná la modalidad de consulta.');
+      goTo(3);
+      return false;
+    }
+
+    if (!contacto) {
+      alert('Por favor seleccioná el medio de contacto preferido.');
+      goTo(3);
+      return false;
+    }
+
+    return true;
+  }
+
+  function validateStep1AndGo() {
+    if (validateStep1()) goTo(2);
+  }
+
+  function validateStep2AndGo() {
+    if (validateStep2()) goTo(3);
+  }
+
+  function validateAll() {
+    return validateStep1() && validateStep2() && validateStep3();
+  }
+
   function goTo(step) {
     document.getElementById('step' + currentStep).classList.add('hidden');
     document.getElementById('step' + step).classList.remove('hidden');
@@ -624,9 +705,10 @@ ${lineas.join('\n')}`);
     e.preventDefault();
 
     const form = e.target;
-    const data = new FormData(form);
-    const emailPaciente = document.getElementById('inputEmail').value.trim();
 
+    if (!validateAll()) return;
+
+    const emailPaciente = document.getElementById('inputEmail').value.trim();
     document.getElementById('inputReplyTo').value = emailPaciente;
 
     try {
